@@ -22,8 +22,8 @@ Future<Post> fetchPost() async {
   * */
   final response =
   await http.post('http://172.17.85.189:8000/', body:body, headers: headers);
-  print(response.statusCode);
-  print(response.body);
+  print('Status: ${response.statusCode}');
+  print('Response body: ${response.body}');
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
     return Post.fromJson(json.decode(response.body));
@@ -114,11 +114,11 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: FutureBuilder<Post>(
             future: post,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data.tokenData.token);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+            builder: (context, respuesta) {
+              if (respuesta.hasData) {
+                return Text(respuesta.data.userData.info.nombres);
+              } else if (respuesta.hasError) {
+                return Text("${respuesta.error}");
               }
 
               // By default, show a loading spinner
