@@ -17,29 +17,24 @@ void main() {
 class PaginaInicial extends StatelessWidget {
   @override
   Widget build(BuildContext context) => new Scaffold(
-    appBar: new AppBar(
-      title: new Text('Administrador de accesos'),
-    ),
-    body: new Container(
-      margin: new EdgeInsets.only(
-          top: 50.0
-      ),
-      alignment: Alignment.center,
-      child: new Column(
-        children: <Widget>[
-          new Text('Bienvenido al Administrador de Accesos'),
-          new FlatButton(
-              child: new Text(
-                  'Cerrar sesion'
-              ),
-              onPressed: () {
-                 Navigator.of(context).pushReplacementNamed('/login');
-              }
-          )
-        ],
-      ),
-    ),
-  );
+        appBar: new AppBar(
+          title: new Text('Administrador de accesos'),
+        ),
+        body: new Container(
+          margin: new EdgeInsets.only(top: 50.0),
+          alignment: Alignment.center,
+          child: new Column(
+            children: <Widget>[
+              new Text('Bienvenido al Administrador de Accesos'),
+              new FlatButton(
+                  child: new Text('Cerrar sesion'),
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('/login');
+                  })
+            ],
+          ),
+        ),
+      );
 }
 
 class PaginaInicioSesion extends StatefulWidget {
@@ -49,6 +44,7 @@ class PaginaInicioSesion extends StatefulWidget {
 
 class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
   String ticket;
+
   /// Agregar un listener al link para obtener el ticket
   Future<String> conseguirUniLink() async {
     getLinksStream().listen((String link) {
@@ -70,23 +66,20 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
       print('error: $err');
     });
   }
+
   @override
   Widget build(BuildContext context) => new Scaffold(
-    appBar: new AppBar(
-      title: new Text('Administrador de Accesos'),
-    ),
-    body: new Container(
-      child: new Center(
-        child: new RaisedButton(
-            child: new Text(
-                'Iniciar sesión en la aplicación'
-            ),
-            onPressed: ()  {
-              _lanzarURL();
-              conseguirUniLink();
-            }
-  ))));
-
+      appBar: new AppBar(
+        title: new Text('Administrador de Accesos'),
+      ),
+      body: new Container(
+          child: new Center(
+              child: new RaisedButton(
+                  child: new Text('Iniciar sesión en la aplicación'),
+                  onPressed: () {
+                    _lanzarURL();
+                    conseguirUniLink();
+                  }))));
 
   _lanzarURL() async {
     const url =
