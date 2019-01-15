@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
+import 'post.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -15,26 +17,38 @@ void main() {
 }
 
 class PaginaInicial extends StatelessWidget {
+
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Administrador de accesos'),
+  Future<String> conseguirNombre() async{
+    SharedPreferences res = await SharedPreferences.getInstance();
+    String nombre= res.getString("nombre");
+    return nombre;
+  }
+
+  Widget build(BuildContext context) {
+    Future<String> nombre = conseguirNombre();
+    return new MaterialApp(
+      title: 'Administrador de accesos',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Administrador de accesos'),
         ),
-        body: new Container(
-          margin: new EdgeInsets.only(top: 50.0),
-          alignment: Alignment.center,
-          child: new Column(
-            children: <Widget>[
-              new Text('Bienvenido al Administrador de Accesos'),
-              new FlatButton(
-                  child: new Text('Cerrar sesion'),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed('/login');
-                  })
-            ],
+        body: Center(
+          child: FutureBuilder<String>(
+            future: nombre,
+            builder: (context, respuesta) {
+              if (respuesta.hasData) {
+                return Text(respuesta.data);
+              } else if (respuesta.hasError) {
+                return Text("${respuesta.error}");
+              }
+              return CircularProgressIndicator();
+            },
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class PaginaInicioSesion extends StatefulWidget {
@@ -47,14 +61,20 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
 
   /// Agregar un listener al link para obtener el ticket
   Future<String> conseguirUniLink() async {
-    getLinksStream().listen((String link) {
+    getLinksStream().listen((String link) async {
       print('link: $link');
       if (link.contains("ticket")) {
         RegExp regexp = new RegExp(r"ticket=(\w+)");
         Iterable<Match> matches = regexp.allMatches(link);
         if (matches.isNotEmpty) {
           ticket = matches.elementAt(0).group(1);
-          Navigator.of(context).pushReplacementNamed('/home');
+          String url = 'http://172.17.85.218:8000/';
+          bool valid = await getToken(ticket, url);
+          if (valid) {
+            Navigator.of(context).pushReplacementNamed('/home');
+          } else {
+            print('ticket no es válido');
+          }
         }
       } else {
         print("falta ticket");
