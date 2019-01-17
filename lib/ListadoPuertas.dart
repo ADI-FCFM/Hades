@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hades/Puerta.dart';
 
 class ListadoPuertas extends StatelessWidget {
-  List<Puerta> puertas;
+  final List<Puerta> puertas;
 
   ListadoPuertas({Key key, this.puertas}) : super(key: key);
 

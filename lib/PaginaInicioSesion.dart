@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hades/PaginaEspera.dart';
@@ -7,7 +6,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'post.dart';
-
+import 'package:hades/TokenData.dart';
 void main() {
   runApp(new MaterialApp(
     theme: ThemeData(primarySwatch: Colors.red),
@@ -27,10 +26,35 @@ class PaginaInicioSesion extends StatefulWidget {
 }
 
 class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
+  @override
+  void initState() {
+    super.initState();
+    iniciarSesion();
+  }
+  iniciarSesion() async{
+    String token = await conseguirToken();
+    bool noHaExpirado = await verificarFechaExpiracion();
+    if(token != null) {
+      print("token no es null");
+      if (noHaExpirado) {
+        print("no ha expirado");
+        Navigator.of(context).pushReplacementNamed('/home');
+      }else{
+        print("expiro");
+        String url ='http://172.17.85.189:8000/refrescar_token';
+        bool refrescar = await refrescarToken(url);
+        if(refrescar){
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
+        else{
+          Navigator.of(context).pushReplacementNamed('/login');
+        }
+      }
+    }
+  }
   String ticket;
-
   /// Agregar un listener al link para obtener el ticket
-  Future<String> conseguirUniLink() async {
+  conseguirUniLink() async {
     getLinksStream().listen((String link) async {
       print('link: $link');
       if (link.contains("ticket")) {
@@ -39,7 +63,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
         if (matches.isNotEmpty) {
           ticket = matches.elementAt(0).group(1);
           String url = 'http://172.17.85.189:8000/';
-          bool valid = await getToken(ticket, url);
+          bool valid = await conseguirTokenConTicket(ticket, url);
           if (valid) {
             Navigator.of(context).pushReplacementNamed('/home');
           } else {

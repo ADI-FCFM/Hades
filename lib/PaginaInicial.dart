@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hades/ListadoPuertas.dart';
+import 'package:hades/TokenData.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,15 +12,22 @@ import 'Puerta.dart';
 
 Future<String> conseguirToken() async {
   SharedPreferences res = await SharedPreferences.getInstance();
-  String token = await res.getString("token");
+  String token = res.getString("token");
+  print(token);
   return token;
 }
 
 Future<List<Puerta>> conseguirPuertas(http.Client client) async {
   String token = await conseguirToken();
-  var response =
-      await client.get('http://172.17.85.189:8000/puertas?token=$token');
-  return compute(parsearPuertas, utf8.decode(response.bodyBytes));
+  var respuesta = await client.get('http://172.17.85.189:8000/puertas?token=$token');
+  if(respuesta.statusCode == 200){
+    return compute(parsearPuertas, utf8.decode(respuesta.bodyBytes));
+  }else if(respuesta.statusCode == 300){
+    refrescarToken('http://172.17.85.189:8000/refrescar_token');
+    conseguirPuertas(client);
+  }else{
+    print("no se pudo conseguir las puertas");
+  }
 }
 
 List<Puerta> parsearPuertas(String responseBody) {
@@ -28,10 +36,9 @@ List<Puerta> parsearPuertas(String responseBody) {
 }
 
 class PaginaInicial extends StatelessWidget {
-  @override
   Future<String> conseguirNombre() async {
     SharedPreferences res = await SharedPreferences.getInstance();
-    String nombre = await res.getString("nombre");
+    String nombre = res.getString("nombre");
     return nombre;
   }
 

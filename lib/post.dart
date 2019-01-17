@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 
 import 'PostInicioSesion.dart';
 
-Future<bool> getToken(String ticket, String url) async {
+Future<bool> conseguirTokenConTicket(String ticket, String url) async {
   Map<String, String> headers = {
     "Content-Type": "application/json ; charset=utf-8",
   };
   String body = json.encode({"ticket": ticket});
-  final respuesta = await http.post(url, body: body, headers: headers);
+  var respuesta = await http.post(url, body: body, headers: headers);
   print('Estatus: ${respuesta.statusCode}');
   print('Respuesta: ${respuesta.body}');
   if (respuesta.statusCode == 200) {
