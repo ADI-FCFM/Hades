@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hades/DetallePuerta.dart';
 import 'package:hades/PaginaEspera.dart';
 import 'package:hades/PaginaInicial.dart';
 import 'package:uni_links/uni_links.dart';
@@ -41,13 +42,11 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
         Navigator.of(context).pushReplacementNamed('/home');
       }else{
         print("expiro");
-        String url ='http://172.17.85.189:8000/refrescar_token';
+        String url ='http://172.17.85.218:8000/refrescar_token';
         bool refrescar = await refrescarToken(url);
+        print(refrescar);
         if(refrescar){
           Navigator.of(context).pushReplacementNamed('/home');
-        }
-        else{
-          Navigator.of(context).pushReplacementNamed('/login');
         }
       }
     }
@@ -62,7 +61,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
         Iterable<Match> matches = regexp.allMatches(link);
         if (matches.isNotEmpty) {
           ticket = matches.elementAt(0).group(1);
-          String url = 'http://172.17.85.189:8000/';
+          String url = 'http://172.17.85.218:8000/';
           bool valid = await conseguirTokenConTicket(ticket, url);
           if (valid) {
             Navigator.of(context).pushReplacementNamed('/home');

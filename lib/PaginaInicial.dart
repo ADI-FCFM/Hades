@@ -17,16 +17,16 @@ Future<String> conseguirToken() async {
   return token;
 }
 
-Future<List<Puerta>> conseguirPuertas(http.Client client) async {
+Future<List<Puerta>> conseguirPuertas(http.Client client, BuildContext context) async {
   String token = await conseguirToken();
-  var respuesta = await client.get('http://172.17.85.189:8000/puertas?token=$token');
+  var respuesta = await client.get('http://172.17.85.218:8000/puertas?token=$token');
   if(respuesta.statusCode == 200){
     return compute(parsearPuertas, utf8.decode(respuesta.bodyBytes));
   }else if(respuesta.statusCode == 300){
-    refrescarToken('http://172.17.85.189:8000/refrescar_token');
-    conseguirPuertas(client);
+    refrescarToken('http://172.17.85.218:8000/refrescar_token');
+    conseguirPuertas(client, context);
   }else{
-    print("no se pudo conseguir las puertas");
+    Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false );
   }
 }
 
@@ -55,7 +55,7 @@ class PaginaInicial extends StatelessWidget {
                 return Text("");
               })),
       body: FutureBuilder<List<Puerta>>(
-        future: conseguirPuertas(http.Client()),
+        future: conseguirPuertas(http.Client(), context),
         builder: (context, respuesta) {
           if (respuesta.hasData) {
             print(respuesta.data);
