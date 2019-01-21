@@ -1,13 +1,13 @@
-
 import 'package:flutter/material.dart';
-import 'package:hades/DetallePuerta.dart';
 import 'package:hades/PaginaEspera.dart';
 import 'package:hades/PaginaInicial.dart';
+import 'package:hades/TokenData.dart';
+import 'package:hades/variables.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'post.dart';
-import 'package:hades/TokenData.dart';
+
 void main() {
   runApp(new MaterialApp(
     theme: ThemeData(primarySwatch: Colors.red),
@@ -32,26 +32,28 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
     super.initState();
     iniciarSesion();
   }
-  iniciarSesion() async{
+
+  iniciarSesion() async {
     String token = await conseguirToken();
     bool noHaExpirado = await verificarFechaExpiracion();
-    if(token != null) {
+    if (token != null) {
       print("token no es null");
       if (noHaExpirado) {
         print("no ha expirado");
         Navigator.of(context).pushReplacementNamed('/home');
-      }else{
+      } else {
         print("expiro");
-        String url ='http://172.17.85.218:8000/refrescar_token';
-        bool refrescar = await refrescarToken(url);
+        bool refrescar = await refrescarToken(urlRefrescar);
         print(refrescar);
-        if(refrescar){
+        if (refrescar) {
           Navigator.of(context).pushReplacementNamed('/home');
         }
       }
     }
   }
+
   String ticket;
+
   /// Agregar un listener al link para obtener el ticket
   conseguirUniLink() async {
     getLinksStream().listen((String link) async {
@@ -61,8 +63,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
         Iterable<Match> matches = regexp.allMatches(link);
         if (matches.isNotEmpty) {
           ticket = matches.elementAt(0).group(1);
-          String url = 'http://172.17.85.218:8000/';
-          bool valid = await conseguirTokenConTicket(ticket, url);
+          bool valid = await conseguirTokenConTicket(ticket, urlInicio);
           if (valid) {
             Navigator.of(context).pushReplacementNamed('/home');
           } else {
@@ -92,15 +93,14 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
                 child: new RaisedButton(
                     child: new Text(mensaje),
                     onPressed: () {
+                      //todo arreglar esto para quitar la flechita
                       Navigator.of(context).pushNamed('/loading');
-                      _lanzarURL();
+                      _lanzarURL(urlUri);
                       conseguirUniLink();
                     }))));
   }
 
-  _lanzarURL() async {
-    const url =
-        'https://sys21.adi.ing.uchile.cl/~jarriagada/davinci/web/batch/heimdall/login?uri=unilinks://accesos.app.adi/path/subpath';
+  _lanzarURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {

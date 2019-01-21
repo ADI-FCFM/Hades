@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Puerta.dart';
+import 'TokenData.dart';
+import 'variables.dart';
 
 Future<String> conseguirToken() async {
   SharedPreferences res = await SharedPreferences.getInstance();
@@ -17,16 +19,25 @@ Future<String> conseguirToken() async {
   return token;
 }
 
-Future<List<Puerta>> conseguirPuertas(http.Client client, BuildContext context) async {
-  String token = await conseguirToken();
-  var respuesta = await client.get('http://172.17.85.218:8000/puertas?token=$token');
-  if(respuesta.statusCode == 200){
+Future<List<Puerta>> conseguirPuertas(
+    http.Client client, BuildContext context) async {
+  String token;
+  String url;
+  var respuesta;
+  token = await conseguirToken();
+  url = '$urlPuertas$token';
+//todo revisar aca que se deberia hacer
+  respuesta = await client.get(url);
+  if (respuesta.statusCode == 403) {
+    await refrescarToken(urlRefrescar);
+    token = await conseguirToken();
+    url = '$urlPuertas$token';
+    respuesta = await client.get(url);
+  }
+  if (respuesta.statusCode == 200) {
     return compute(parsearPuertas, utf8.decode(respuesta.bodyBytes));
-  }else if(respuesta.statusCode == 300){
-    refrescarToken('http://172.17.85.218:8000/refrescar_token');
-    conseguirPuertas(client, context);
-  }else{
-    Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false );
+  } else {
+    salirAplicacion(context);
   }
 }
 
@@ -46,6 +57,14 @@ class PaginaInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.power_settings_new),
+                tooltip: 'Cerrar sesión',
+                onPressed: () {
+                  salirAplicacion(context);
+                }),
+          ],
           title: FutureBuilder<String>(
               future: conseguirNombre(),
               builder: (context, respuesta) {

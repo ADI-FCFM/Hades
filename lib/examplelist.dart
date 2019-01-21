@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hades/Puerta.dart';
+
+void main() {
+  runApp(ListadoPuertas());
+}
 
 Puerta puerta1 = Puerta.fromJson({
   "id": 29,
@@ -19,8 +24,55 @@ Puerta puerta2 = Puerta.fromJson({
 });
 List<Puerta> puertas = [puerta1, puerta2, puerta1];
 
-void main() {
-  runApp(MyApp());
+class ListadoPuertas extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: GridView.builder(
+          itemBuilder: (context, position) {
+            return ListTile(
+              title: Text('${puertas[position].descripcion}'),
+              subtitle: Text('${puertas[position].ubicacion}'),
+              onTap: () async {
+                bool sePuedeAbrir = await abrir(puertas[position].id);
+                var snackbar;
+                Color color;
+                if (sePuedeAbrir) {
+                  color = Colors.green.shade400;
+                  snackbar = SnackBar(
+                      content: Text('Yay! A SnackBar!'),
+                      backgroundColor: color,
+                      duration: Duration(seconds: 1));
+                } else {
+                  Color color = Colors.red.shade400;
+                  snackbar = SnackBar(
+                      content: Text('buu! A SnackBar!'),
+                      backgroundColor: color,
+                      duration: Duration(seconds: 1));
+                }
+                Scaffold.of(context).showSnackBar(snackbar);
+              },
+            );
+          },
+          itemCount: puertas.length,
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        ),
+      ),
+    );
+  }
+}
+
+Future<bool> abrir(int id) async {
+  var respuesta = 200;
+  if (id == 29) {
+    print(true);
+    return true;
+  } else {
+    print(false);
+    return false;
+  }
 }
 
 class MyApp extends StatelessWidget {
