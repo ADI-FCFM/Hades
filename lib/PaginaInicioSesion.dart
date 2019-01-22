@@ -67,7 +67,8 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
           ticket = matches.elementAt(0).group(1);
           bool valid = await conseguirTokenConTicket(ticket, urlInicio);
           if (valid) {
-            Navigator.of(context).pushNamedAndRemoveUntil('/home', (_) => false);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/home', (_) => false);
           } else {
             Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
             _errorInicioSesion(context);
@@ -84,11 +85,13 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
       print('error: $err');
     });
   }
+
   @override
   void dispose() {
     if (_sub != null) _sub.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     String mensaje = 'Iniciar sesión en la aplicación';
@@ -100,7 +103,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
             child: new Center(
                 child: new RaisedButton(
                     child: new Text(mensaje),
-                    onPressed: () async{
+                    onPressed: () async {
                       Navigator.of(context).pushNamed('/loading');
                       await _lanzarURL(urlUri);
                       conseguirUniLink();
@@ -115,6 +118,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
     }
   }
 }
+
 void _errorInicioSesion(context) {
   // flutter defined function
   showDialog(
@@ -123,7 +127,8 @@ void _errorInicioSesion(context) {
       // return object of type Dialog
       return AlertDialog(
         title: new Text("Error al iniciar sesión"),
-        content: new Text("Ocurrió un error al inciar sesión, intente nuevamente"),
+        content:
+            new Text("Ocurrió un error al inciar sesión, intente nuevamente"),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
