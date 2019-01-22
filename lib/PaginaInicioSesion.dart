@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hades/PaginaEspera.dart';
 import 'package:hades/PaginaInicial.dart';
@@ -12,9 +14,8 @@ void main() {
   runApp(new MaterialApp(
     theme: ThemeData(primarySwatch: Colors.red),
     title: 'Administrador de Accesos',
-    home: new PaginaInicioSesion(),
     routes: <String, WidgetBuilder>{
-      '/login': (BuildContext context) => new PaginaInicioSesion(),
+      '/': (BuildContext context) => new PaginaInicioSesion(),
       '/home': (BuildContext context) => new PaginaInicial(),
       '/loading': (BuildContext context) => new PaginaEspera(),
     },
@@ -53,10 +54,11 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
   }
 
   String ticket;
+  StreamSubscription _sub;
 
   /// Agregar un listener al link para obtener el ticket
   conseguirUniLink() async {
-    getLinksStream().listen((String link) async {
+    _sub = getLinksStream().listen((String link) async {
       print('link: $link');
       if (link.contains("ticket")) {
         RegExp regexp = new RegExp(r"ticket=(\w+)");
@@ -65,8 +67,10 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
           ticket = matches.elementAt(0).group(1);
           bool valid = await conseguirTokenConTicket(ticket, urlInicio);
           if (valid) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushNamedAndRemoveUntil('/home', (_) => false);
           } else {
+            Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
+            _errorInicioSesion(context);
             print('ticket no es válido');
           }
         }
@@ -75,12 +79,16 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
       }
       print("listo el ticket esta abajo");
       print(ticket);
-      return ticket;
     }, onError: (err) {
+      print("me cai");
       print('error: $err');
     });
   }
-
+  @override
+  void dispose() {
+    if (_sub != null) _sub.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     String mensaje = 'Iniciar sesión en la aplicación';
@@ -92,10 +100,9 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
             child: new Center(
                 child: new RaisedButton(
                     child: new Text(mensaje),
-                    onPressed: () {
-                      //todo arreglar esto para quitar la flechita
+                    onPressed: () async{
                       Navigator.of(context).pushNamed('/loading');
-                      _lanzarURL(urlUri);
+                      await _lanzarURL(urlUri);
                       conseguirUniLink();
                     }))));
   }
@@ -107,4 +114,26 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
       throw 'No se pudo lanzar $url';
     }
   }
+}
+void _errorInicioSesion(context) {
+  // flutter defined function
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: new Text("Error al iniciar sesión"),
+        content: new Text("Ocurrió un error al inciar sesión, intente nuevamente"),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new FlatButton(
+            child: new Text("Cerrar"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

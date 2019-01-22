@@ -26,7 +26,6 @@ Future<List<Puerta>> conseguirPuertas(
   var respuesta;
   token = await conseguirToken();
   url = '$urlPuertas$token';
-//todo revisar aca que se deberia hacer
   respuesta = await client.get(url);
   if (respuesta.statusCode == 403) {
     await refrescarToken(urlRefrescar);

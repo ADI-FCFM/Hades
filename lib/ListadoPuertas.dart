@@ -44,7 +44,8 @@ class ListadoPuertas extends StatelessWidget {
                         duration: Duration(seconds: 1));
                   }
                   Scaffold.of(context).showSnackBar(snackbar);
-                });
+                }
+                );
           },
           itemCount: puertas.length,
           gridDelegate:

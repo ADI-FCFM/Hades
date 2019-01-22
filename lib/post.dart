@@ -10,6 +10,7 @@ Future<bool> conseguirTokenConTicket(String ticket, String url) async {
   Map<String, String> headers = {
     "Content-Type": "application/json ; charset=utf-8",
   };
+  ticket = ticket;
   String body = json.encode({"ticket": ticket});
   var respuesta = await http.post(url, body: body, headers: headers);
   print('Estatus: ${respuesta.statusCode}');
@@ -26,6 +27,6 @@ Future<bool> conseguirTokenConTicket(String ticket, String url) async {
     print("nombre guardado");
     return true;
   } else {
-    throw Exception('Falló post');
+    return false;
   }
 }

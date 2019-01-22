@@ -81,5 +81,5 @@ void salirAplicacion(context) async {
   prefs.remove('token');
   prefs.remove('refresh_token');
   prefs.remove('fecha_expiracion');
-  Navigator.of(context).pushNamedAndRemoveUntil('/login', (_) => false);
+  Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
 }
