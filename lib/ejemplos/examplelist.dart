@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hades/Puerta.dart';
+import 'package:hades/Acceso.dart';
 
 void main() {
   runApp(ListadoPuertas());
 }
 
-Puerta puerta1 = Puerta.fromJson({
+Acceso puerta1 = Acceso.fromJson({
   "id": 29,
   "ubicacion": "ADI",
   "descripcion": "Puerta ADI",
@@ -14,7 +14,7 @@ Puerta puerta1 = Puerta.fromJson({
   "modo_texto": "Modo tarjeta",
   "puede_abrir": true
 });
-Puerta puerta2 = Puerta.fromJson({
+Acceso puerta2 = Acceso.fromJson({
   "id": 21,
   "ubicacion": "Torre central, 5º piso",
   "descripcion": "Ascensor",
@@ -22,7 +22,7 @@ Puerta puerta2 = Puerta.fromJson({
   "modo_texto": "Abierto",
   "puede_abrir": true
 });
-List<Puerta> puertas = [puerta1, puerta2, puerta1];
+List<Acceso> puertas = [puerta1, puerta2, puerta1];
 
 class ListadoPuertas extends StatelessWidget {
   @override
@@ -65,12 +65,9 @@ class ListadoPuertas extends StatelessWidget {
 }
 
 Future<bool> abrir(int id) async {
-  var respuesta = 200;
   if (id == 29) {
-    print(true);
     return true;
   } else {
-    print(false);
     return false;
   }
 }

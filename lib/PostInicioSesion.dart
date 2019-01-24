@@ -1,15 +1,17 @@
-import 'package:hades/Persona.dart';
-import 'package:hades/TokenData.dart';
+import 'package:hades/InformacionToken.dart';
+import 'package:hades/Usuario.dart';
 
 class PostInicioSesion {
-  TokenData tokenData;
-  Persona persona;
+  InformacionToken tokenData;
+  Usuario persona;
 
   PostInicioSesion({this.persona, this.tokenData});
 
   factory PostInicioSesion.fromJson(Map<String, dynamic> parsedJson) {
     return PostInicioSesion(
-        persona: Persona.fromJson(parsedJson['user_data']),
-        tokenData: TokenData.fromJson(parsedJson['token_data']));
+        //info_usuario
+        //info_token
+        persona: Usuario.fromJson(parsedJson['user_data']),
+        tokenData: InformacionToken.fromJson(parsedJson['token_data']));
   }
 }

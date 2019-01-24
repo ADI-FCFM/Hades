@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hades/DetallePuerta.dart';
-import 'package:hades/Puerta.dart';
+import 'package:hades/Acceso.dart';
+import 'package:hades/utilidades/accesos.dart';
 
-class ListadoPuertas extends StatelessWidget {
-  final List<Puerta> puertas;
+class ListadoAccesos extends StatelessWidget {
+  final List<Acceso> accesos;
 
-  ListadoPuertas({Key key, this.puertas}) : super(key: key);
+  ListadoAccesos({Key key, this.accesos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +15,10 @@ class ListadoPuertas extends StatelessWidget {
         body: GridView.builder(
           itemBuilder: (context, position) {
             return ListTile(
-                title: Text('${puertas[position].descripcion}'),
-                subtitle: Text('${puertas[position].ubicacion}'),
-                /*onTap: () {
-
-                Navigator.push(context, MaterialPageRoute<void>(
-                  builder: ( BuildContext context) => DetallePuerta(puerta: puertas[position]),
-                )
-                );
-                */
+                title: Text('${accesos[position].descripcion}'),
+                subtitle: Text('${accesos[position].ubicacion}'),
                 onTap: () async {
-                  bool sePuedeAbrir = await abrir(puertas[position].id);
-                  print(sePuedeAbrir);
-                  print(puertas[position].id);
+                  bool sePuedeAbrir = await abrirAcceso(accesos[position].id);
                   var snackbar;
                   Color color;
                   if (sePuedeAbrir) {
@@ -46,7 +37,7 @@ class ListadoPuertas extends StatelessWidget {
                   Scaffold.of(context).showSnackBar(snackbar);
                 });
           },
-          itemCount: puertas.length,
+          itemCount: accesos.length,
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         ),

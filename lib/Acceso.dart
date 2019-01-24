@@ -1,4 +1,4 @@
-class Puerta {
+class Acceso {
   int id;
   String ubicacion;
   String descripcion;
@@ -6,7 +6,7 @@ class Puerta {
   String modoTexto;
   bool puedeAbrir;
 
-  Puerta(
+  Acceso(
       {this.id,
       this.ubicacion,
       this.descripcion,
@@ -14,8 +14,8 @@ class Puerta {
       this.modoTexto,
       this.puedeAbrir});
 
-  factory Puerta.fromJson(Map<String, dynamic> parsedJson) {
-    return Puerta(
+  factory Acceso.fromJson(Map<String, dynamic> parsedJson) {
+    return Acceso(
         id: parsedJson['id'],
         ubicacion: parsedJson['ubicacion'],
         descripcion: parsedJson['descripcion'],
