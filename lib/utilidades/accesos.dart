@@ -32,7 +32,7 @@ Future<List<Acceso>> conseguirAccesos(BuildContext context) async {
 
 List<Acceso> parsearAccesos(String responseBody) {
   var parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-  return parsed.map<Acceso>((json) => Acceso.fromJson(json)).toList();
+  return parsed.map<Acceso>((json) => Acceso.convertirJson(json)).toList();
 }
 
 Future<bool> abrirAcceso(int id) async {

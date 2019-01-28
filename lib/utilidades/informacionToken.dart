@@ -33,7 +33,7 @@ Future<bool> refrescarToken(url) async {
     Map<String, dynamic> jsonRespuesta =
         json.decode(utf8.decode(respuesta.bodyBytes));
     InformacionToken informacionToken =
-        InformacionToken.fromJson(jsonRespuesta);
+    InformacionToken.convertirJson(jsonRespuesta);
     informacionToken.guardarInformacionToken();
     return true;
   } else {

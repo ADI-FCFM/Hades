@@ -7,11 +7,11 @@ class PostInicioSesion {
 
   PostInicioSesion({this.persona, this.tokenData});
 
-  factory PostInicioSesion.fromJson(Map<String, dynamic> parsedJson) {
+  factory PostInicioSesion.convertirJson(Map<String, dynamic> json) {
     return PostInicioSesion(
         //info_usuario
         //info_token
-        persona: Usuario.fromJson(parsedJson['user_data']),
-        tokenData: InformacionToken.fromJson(parsedJson['token_data']));
+        persona: Usuario.convertirJson(json['user_data']),
+        tokenData: InformacionToken.convertirJson(json['token_data']));
   }
 }

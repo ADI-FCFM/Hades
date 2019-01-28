@@ -7,7 +7,7 @@ class InformacionToken {
 
   InformacionToken({this.token, this.refreshToken, this.fechaExpiracion});
 
-  factory InformacionToken.fromJson(Map<String, dynamic> json) {
+  factory InformacionToken.convertirJson(Map<String, dynamic> json) {
     return InformacionToken(
         token: json['token'],
         refreshToken: json['refresh_token'],

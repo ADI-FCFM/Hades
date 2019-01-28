@@ -14,13 +14,13 @@ class Acceso {
       this.modoTexto,
       this.puedeAbrir});
 
-  factory Acceso.fromJson(Map<String, dynamic> parsedJson) {
+  factory Acceso.convertirJson(Map<String, dynamic> json) {
     return Acceso(
-        id: parsedJson['id'],
-        ubicacion: parsedJson['ubicacion'],
-        descripcion: parsedJson['descripcion'],
-        modo: parsedJson['modo'],
-        modoTexto: parsedJson['modo_texto'],
-        puedeAbrir: parsedJson['puerta_abrir']);
+        id: json['id'],
+        ubicacion: json['ubicacion'],
+        descripcion: json['descripcion'],
+        modo: json['modo'],
+        modoTexto: json['modo_texto'],
+        puedeAbrir: json['puerta_abrir']);
   }
 }

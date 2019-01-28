@@ -6,7 +6,7 @@ void main() {
   runApp(ListadoPuertas());
 }
 
-Acceso puerta1 = Acceso.fromJson({
+Acceso puerta1 = Acceso.convertirJson({
   "id": 29,
   "ubicacion": "ADI",
   "descripcion": "Puerta ADI",
@@ -14,7 +14,7 @@ Acceso puerta1 = Acceso.fromJson({
   "modo_texto": "Modo tarjeta",
   "puede_abrir": true
 });
-Acceso puerta2 = Acceso.fromJson({
+Acceso puerta2 = Acceso.convertirJson({
   "id": 21,
   "ubicacion": "Torre central, 5º piso",
   "descripcion": "Ascensor",

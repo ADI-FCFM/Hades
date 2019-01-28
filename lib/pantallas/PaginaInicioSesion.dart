@@ -7,7 +7,6 @@ import 'package:hades/PostInicioSesion.dart';
 import 'package:hades/utilidades/informacionToken.dart';
 import 'package:hades/utilidades/utilidadesGenerales.dart';
 import 'package:hades/variables.dart';
-import 'package:http/http.dart' as http;
 import 'package:uni_links/uni_links.dart';
 
 class PaginaInicioSesion extends StatefulWidget {
@@ -46,7 +45,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
     if (respuesta.statusCode == 200) {
       Map<String, dynamic> responseJson =
           json.decode(utf8.decode(respuesta.bodyBytes));
-      PostInicioSesion post = PostInicioSesion.fromJson(responseJson);
+      PostInicioSesion post = PostInicioSesion.convertirJson(responseJson);
       InformacionToken tokenData = post.tokenData;
       tokenData.guardarInformacionToken();
       post.persona.guardarNombreUsuario();

@@ -6,7 +6,7 @@ class Usuario {
 
   Usuario({this.nombres, this.apellidos});
 
-  factory Usuario.fromJson(Map<String, dynamic> json) {
+  factory Usuario.convertirJson(Map<String, dynamic> json) {
     return Usuario(nombres: json['nombres'], apellidos: json['apellidos']);
   }
 
