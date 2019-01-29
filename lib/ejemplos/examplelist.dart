@@ -7,19 +7,19 @@ void main() {
 }
 
 Acceso puerta1 = Acceso.convertirJson({
-  "id": 29,
-  "ubicacion": "ADI",
-  "descripcion": "Puerta ADI",
-  "modo": "T",
-  "modo_texto": "Modo tarjeta",
+  "id": 1,
+  "ubicacion": "A",
+  "descripcion": "Puerta 1",
+  "modo": "A",
+  "modo_texto": "si",
   "puede_abrir": true
 });
 Acceso puerta2 = Acceso.convertirJson({
-  "id": 21,
-  "ubicacion": "Torre central, 5º piso",
-  "descripcion": "Ascensor",
+  "id": 2,
+  "ubicacion": "T",
+  "descripcion": "A",
   "modo": "A",
-  "modo_texto": "Abierto",
+  "modo_texto": "A",
   "puede_abrir": true
 });
 List<Acceso> puertas = [puerta1, puerta2, puerta1];

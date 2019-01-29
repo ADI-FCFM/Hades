@@ -4,7 +4,7 @@ class InformacionToken {
   String token;
   String refreshToken;
   String fechaExpiracion;
-
+  /// constructor de la clase InformacionToken
   InformacionToken({this.token, this.refreshToken, this.fechaExpiracion});
 
   factory InformacionToken.convertirJson(Map<String, dynamic> json) {

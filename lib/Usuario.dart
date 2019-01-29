@@ -5,7 +5,6 @@ class Usuario {
   String apellidos;
 
   /// constructor de la clase Usuario
-  
   Usuario({this.nombres, this.apellidos}); 
 
   factory Usuario.convertirJson(Map<String, dynamic> json) {

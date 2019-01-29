@@ -5,7 +5,7 @@ class Acceso {
   String modo;
   String modoTexto;
   bool puedeAbrir;
-
+/// constructor de la clase Acceso
   Acceso(
       {this.id,
       this.ubicacion,

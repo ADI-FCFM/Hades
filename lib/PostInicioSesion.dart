@@ -2,16 +2,16 @@ import 'package:hades/InformacionToken.dart';
 import 'package:hades/Usuario.dart';
 
 class PostInicioSesion {
-  InformacionToken tokenData;
-  Usuario persona;
-
-  PostInicioSesion({this.persona, this.tokenData});
+  InformacionToken informacionToken;
+  Usuario usuario;
+  /// constructor de la clase PostInicioSesion
+  PostInicioSesion({this.usuario, this.informacionToken});
 
   factory PostInicioSesion.convertirJson(Map<String, dynamic> json) {
     return PostInicioSesion(
         //info_usuario
         //info_token
-        persona: Usuario.convertirJson(json['user_data']),
-        tokenData: InformacionToken.convertirJson(json['token_data']));
+        usuario: Usuario.convertirJson(json['user_data']),
+        informacionToken: InformacionToken.convertirJson(json['token_data']));
   }
 }

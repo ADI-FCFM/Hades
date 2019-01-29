@@ -1,19 +1,43 @@
 # Hades
 Prueba de concepto de aplicación de administración de accesos.
 
+
+La aplicación permite al usuario iniciar sesión utilizando sus credenciales universitarias
+mediantes el protocolo [CAS](https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
+).
+
+
+Cuando el usuario inicie sesión externamente, se le redigirá a la aplicación con un ticket,
+el cual será verificado en la api [Aqueronte](https://github.com/ADI-FCFM/Aqueronte) antes de permitir al usuario ingresar.
+Junto con verificar el ticket la api enviará más información, la cual será de tipo PostInicioSesion.
+Este objeto contendrá datos del usuario(tipo Usuario) e información para poder comunicarse directamente con esta (tipo InformacionToken).
+
+
+Además, la aplicación entregará el listado de accesos del usuario y permitirá abrirlos.
+Para obtener esta información, la aplicación se comunicará con Aqueronte utilizando InformacionToken.
+
+## Comunicación con Aqueronte
+
+Cuando la aplicación se comunique con Aqueronte pueden existir las siguientes situaciones:
+* Respuesta 200: no hubo errores al momento de obtener la información, por lo que esta se muestra.
+* Respuesta 403: el token utilizado está vencido por lo que se debe llamar a la función refrescarToken,
+    actualizar informacionToken con los nuevos datos e
+    intentar comunicarse nuevamente con la api.
+* Otro : mostrar un error con la función alertaError.
+
 ## Estructura aplicación
 
-### Clases con build (pantallas)
-* [ListadoAccesos](../master/lib/pantallas/ListadoAccesos.dart)
-* [PaginaEspera](../master/lib/pantallas/PaginaEspera.dart)
-* [PaginaInicioSesion](../master/lib/pantallas/PaginaInicioSesion.dart)
-* [PaginaPrincipal](../master/lib/pantallas/PaginaPrincipal.dart)
+### Clases para las pantallas
+* [PaginaInicioSesion](../master/lib/pantallas/PaginaInicioSesion.dart): contiene un botón para redigir a la página de autenticación.
+* [PaginaPrincipal](../master/lib/pantallas/PaginaPrincipal.dart): se muestra el nombre del usuario en el _app_bar_ y en el _body_ el listado de accesos (ListadoAccesos).
+* [ListadoAccesos](../master/lib/pantallas/ListadoAccesos.dart): listado de los accesos del usuario, los cuales al ser presionados abren las puertas.
+* [PaginaEspera](../master/lib/pantallas/PaginaEspera.dart): contiene un _CircularProgressIndicator_.
 
-### Clases con factory
-* [Acceso](../master/lib/Acceso.dart)
-* [InformacionToken](../master/lib/InformacionToken.dart)
-* [PostInicioSesion](../master/lib/PostInicioSesion.dart)
-* [Usuario](../master/lib/Usuario.dart)
+### Otras clases
+* [Acceso](../master/lib/Acceso.dart): accesos (puertas) que son administrados por la aplicación
+* [InformacionToken](../master/lib/InformacionToken.dart): información que permite comunicarse con Aqueronte.
+* [PostInicioSesion](../master/lib/PostInicioSesion.dart): información recibida al entregar el ticket a Aqueronte.
+* [Usuario](../master/lib/Usuario.dart): información del usuario.
 
 
 ### Utilidades
@@ -39,19 +63,36 @@ Prueba de concepto de aplicación de administración de accesos.
 # Referencia
 
 ## Navigation
-[Push, Pop, Push](https://medium.com/flutter-community/flutter-push-pop-push-1bb718b13c31)
+[Documentación Flutter sobre Navigation](https://flutter.io/docs/cookbook/navigation/navigation-basics)
+
+
+[Explicación en medium de más métodos para navegar](https://medium.com/flutter-community/flutter-push-pop-push-1bb718b13c31)
+
 
 [Borrar Rutas](https://stackoverflow.com/questions/45398204/removing-the-default-back-arrow-on-certain-pages)
 
+Para navegar entre pantallas se utiliza _Navigator_. En palabras simples, a las pantallas se les asocian _routes_,
+ las cuales son mostradas con Navigator.pushNamed(contexto, nombreRuta) y quitadas con Navigator.pop(contexto).
+ Existen más métodos para navegar entre pantallas, los cuales se explican en las referencias de arriba.
+
+
 ## Construir Widget
+[Widget](https://flutter.io/docs/development/ui/widgets-intro)
+
+
 [Material Components widgets](https://flutter.io/docs/development/ui/widgets/material)
+
+
+En Flutter para construir la interfaz se utilizan widget. Los cuales pueden ser de dos tipos:
+* StatefulWidget: widget que pueden cambiar.
+* StatelessWidget: widget que nunca cambia.
 ## Métodos get y post
 La librería [http](https://pub.dartlang.org/packages/http) permite realizar consultas por get y post asincrónamente
  ```dart
 import 'package:http/http.dart' as http;
  ```
 
- dado que al momento de enviar parámetros se complica el utilizarla, por lo que se crearon los siguientes métodos
+ dado que al momento de enviar parámetros se complica el utilizarla, se crearon los siguientes métodos:
 ### Post (metodoPost)
 
 
@@ -93,7 +134,8 @@ luego con replace se agregan los parametros de consulta.
 ```
 
 
-## Convertir Json a un Objeto (convertirJson)
+## Convertir Json en un Objeto (convertirJson)
+Explicación de como convertir un Json en un objeto:
 [Factory](https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51)
 
 ## Guardar información en la aplicación

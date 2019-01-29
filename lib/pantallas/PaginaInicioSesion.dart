@@ -46,9 +46,9 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
       Map<String, dynamic> responseJson =
           json.decode(utf8.decode(respuesta.bodyBytes));
       PostInicioSesion post = PostInicioSesion.convertirJson(responseJson);
-      InformacionToken tokenData = post.tokenData;
+      InformacionToken tokenData = post.informacionToken;
       tokenData.guardarInformacionToken();
-      post.persona.guardarNombreUsuario();
+      post.usuario.guardarNombreUsuario();
       return true;
     } else {
       return false;
