@@ -51,7 +51,7 @@ La librería [http](https://pub.dartlang.org/packages/http) permite realizar con
 import 'package:http/http.dart' as http;
  ```
 
- dado que al momento de enviar parámetros se complica el utilizarla se crearon los metodos
+ dado que al momento de enviar parámetros se complica el utilizarla, por lo que se crearon los siguientes métodos
 ### Post (metodoPost)
 
 
@@ -59,7 +59,7 @@ import 'package:http/http.dart' as http;
 
 
  Para utilizar el post de http se requiere entregar el cuerpo como un JSON string,
- por ello con la librería convert se transformarn los parámetros de consulta utilizando la función json.encode(parametrosConsulta).
+ por ello con la librería __convert__ se transformarn los parámetros de consulta utilizando la función __json.encode(parametrosConsulta)__.
 
  ```dart
  import 'dart:convert';
@@ -80,7 +80,7 @@ Recibe la url y los parametros de consulta en con el formato {"parametro1": "val
 
 Para utilizar el método get de http es necesario pasar los parámetros como una
 [Uri](https://api.dartlang.org/stable/2.1.0/dart-core/Uri-class.html)
-por ello, primero se crea la uri con Uri.parse(url) y
+por ello, primero se crea la uri con __Uri.parse(url)__ y
 luego con replace se agregan los parametros de consulta.
 
  ```dart
@@ -93,10 +93,10 @@ luego con replace se agregan los parametros de consulta.
 ```
 
 
-### Convertir Json a un Objeto (convertirJson)
+## Convertir Json a un Objeto (convertirJson)
 [Factory](https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51)
 
-### Guardar información en la aplicación
+## Guardar información en la aplicación
 [Shared Preferences 1](https://pub.dartlang.org/packages/shared_preferences)
 
 [Shared Preferences 2](https://medium.com/@carlosAmillan/shared-preferences-c%C3%B3mo-guardar-la-configuraci%C3%B3n-de-la-aplicaci%C3%B3n-flutter-y-las-preferencias-del-8bbd30cd7dbc).
@@ -109,7 +109,7 @@ Para almacenar datos __sin cifrar__ en la aplicación se utiliza Shared Preferen
 
 
 
-Los datos se obtienen asincrónamente por lo que antes de intentar conseguir un dato almacenado
+Los datos se obtienen asíncronamente por lo que antes de intentar conseguir un dato almacenado
 se debe utilizar
 ```dart
  SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -146,7 +146,7 @@ Para añadir imagenes agregarlas en las carpetas mipmap ubicadas en
 Hades\android\app\src\main\res
 
 
-Para agregar el color de fondo agregar el archivo colors.xml en la carpeta values, ubicada en
+Para agregar el color de fondo agregar el archivo [colors.xml](../master/android/app/src/main/res/values/colors.xml) en la carpeta values, ubicada en
 Hades\android\app\src\main\res
 con el siguiente contenido
 ```xml
