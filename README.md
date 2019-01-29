@@ -185,12 +185,12 @@ prefs.remove("activo");
 [splash screen 1](https://flutter.io/docs/development/ui/assets-and-images)
 #### Android:
 Para añadir imagenes agregarlas en las carpetas mipmap ubicadas en
-[Hades\android\app\src\main\res]((../master/android/app/src/main/res))
+[Hades\android\app\src\main\res](../master/android/app/src/main/res)
 
 
 
 Para agregar el color de fondo agregar el archivo [colors.xml](../master/android/app/src/main/res/values/colors.xml) en la carpeta values, ubicada en
-[Hades\android\app\src\main\res]((../master/android/app/src/main/res))
+[Hades\android\app\src\main\res](../master/android/app/src/main/res)
 con el siguiente contenido
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
