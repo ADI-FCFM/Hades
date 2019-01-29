@@ -4,35 +4,35 @@ Prueba de concepto de aplicación de administración de accesos.
 ## Estructura aplicación
 
 ### Clases con build (pantallas)
-* ListadoAccesos
-* PaginaEspera
-* PaginaInicioSesion
-* PaginaPrincipal
+* [ListadoAccesos](../master/lib/pantallas/ListadoAccesos.dart)
+* [PaginaEspera](../master/lib/pantallas/PaginaEspera.dart)
+* [PaginaInicioSesion](../master/lib/pantallas/PaginaInicioSesion.dart)
+* [PaginaPrincipal](../master/lib/pantallas/PaginaPrincipal.dart)
 
 ### Clases con factory
-* Acceso
-* InformacionToken
-* PostInicioSesion
-* Usuario
+* [Acceso](../master/lib/Acceso.dart)
+* [InformacionToken](../master/lib/InformacionToken.dart)
+* [PostInicioSesion](../master/lib/PostInicioSesion.dart)
+* [Usuario](../master/lib/Usuario.dart)
 
 
 ### Utilidades
-* Utilidades Generales
+* [Utilidades Generales](../master/lib/utilidades/utilidadesGenerales.dart) 
     * metodoGet
     * metodoPost
     * alertaError
     * lanzarURL
     * salirAplicacion
-* Accesos
+* [Accesos](../master/lib/utilidades/accesos.dart)
     * conseguirAccesos
     * parsearAccesos
     * abrirAcceso
-* Información Token
+* [Información Token](../master/lib/utilidades/informacionToken.dart)
     * conseguirTokenAlmacenado
     * verificarFechaExpiracionToken
     * refrescarToken
     * invalidarToken
-* Usuario
+* [Usuario](../master/lib/utilidades/usuario.dart)
     * conseguirNombreAlmacenadoUsuario
 
 
