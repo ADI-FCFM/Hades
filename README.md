@@ -1,95 +1,95 @@
 # Hades
-## How to Flutter
+Prueba de concepto de aplicación de administración de accesos.
 
-## Rutas
+## Estructura aplicación
+
+### Clases con build (pantallas)
+* ListadoAccesos
+* PaginaEspera
+* PaginaInicioSesion
+* PaginaPrincipal
+
+### Clases con factory
+* Acceso
+* InformacionToken
+* PostInicioSesion
+* Usuario
+
+
+### Utilidades
+* Utilidades Generales
+    * metodoGet
+    * metodoPost
+    * alertaError
+    * lanzarURL
+    * salirAplicacion
+* Accesos
+    * conseguirAccesos
+    * parsearAccesos
+    * abrirAcceso
+* Información Token
+    * conseguirTokenAlmacenado
+    * verificarFechaExpiracionToken
+    * refrescarToken
+    * invalidarToken
+* Usuario
+    * conseguirNombreAlmacenadoUsuario
+
+
+# Referencia
+
+## Navigation
+[Push, Pop, Push](https://medium.com/flutter-community/flutter-push-pop-push-1bb718b13c31)
+
+[Borrar Rutas](https://stackoverflow.com/questions/45398204/removing-the-default-back-arrow-on-certain-pages)
 
 ## Construir Widget
-## Hecho nativo
-### Splash screen
-[splash screen 1](https://flutter.io/docs/development/ui/assets-and-images)
-#### Android
-Para añadir imagenes agregarlas en las carpetas mipmap ubicadas en
-C:\Users\kyra\AndroidStudioProjects\Hades\android\app\src\main\res
+[Material Components widgets](https://flutter.io/docs/development/ui/widgets/material)
+## Métodos get y post
+La librería [http](https://pub.dartlang.org/packages/http) permite realizar consultas por get y post asincrónamente
+ ```dart
+import 'package:http/http.dart' as http;
+ ```
+
+ dado que al momento de enviar parámetros se complica el utilizarla se crearon los metodos
+### Post (metodoPost)
 
 
-Para agregar el color de fondo agregar el archivo colors.xml en la carpeta values, ubicada en
-C:\Users\kyra\AndroidStudioProjects\Hades\android\app\src\main\res
-con el siguiente contenido
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="nombreColor">#colorEnHexadecimal</color>
-</resources>
-```
-
-Finalmente para configurar la splash screen ir a
-C:\Users\kyra\AndroidStudioProjects\Hades\android\app\src\main\res\drawable\launch_background.xml
-y agregar
-```xml
-<?xml version="1.0" encoding="utf-8"?><!-- Modify this file to customize your launch splash screen -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- indicar color -->
-    <item android:drawable="@color/nombreColor" />
-
-    <!-- insertar imagen -->
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/nombreImagen" />
-    </item>
-</layer-list>
-
-```
-
-#### iOS
-
-### Redirigir a la aplicación luego de que la persona inicie sesión
-[uni_links 1](https://pub.dartlang.org/packages/uni_links)
+ Recibe la url y los parametros de consulta en con el formato {"parametro1": "value", "parametro2": "value"}.
 
 
-Se utilizó la función getLinksStream de la librería uni_links  para
-tener un listener que vea el cambio en la url.
+ Para utilizar el post de http se requiere entregar el cuerpo como un JSON string,
+ por ello con la librería convert se transformarn los parámetros de consulta utilizando la función json.encode(parametrosConsulta).
+
+ ```dart
+ import 'dart:convert';
+
+ Future<http.Response> metodoPost(url, parametrosConsulta) async {
+   Map<String, String> headers = {
+     "Content-Type": "application/json ; charset=utf-8",
+   };
+   var body = json.encode(parametrosConsulta);
+   http.Response respuesta = await http.post(url, headers: headers, body: body);
+   return respuesta;
+ }
+ ```
+### Get (metodoGet)
+
+Recibe la url y los parametros de consulta en con el formato {"parametro1": "value", "parametro2": "value"}.
 
 
-Para utilizar la librería fue necesario configurar los permisos de los links en las
- carpetas de ios y android.
+Para utilizar el método get de http es necesario pasar los parámetros como una
+[Uri](https://api.dartlang.org/stable/2.1.0/dart-core/Uri-class.html)
+por ello, primero se crea la uri con Uri.parse(url) y
+luego con replace se agregan los parametros de consulta.
 
- * Android:
- Para agregar los links ir a Hades\android\app\src\main\AndroidManifest.xml
-```xml
-<manifest ...>
-    <application ...>
-          <activity ...>
-              <!-- Deep Links -->
-              <intent-filter>
-                  <action android:name="android.intent.action.VIEW" />
-
-                  <category android:name="android.intent.category.DEFAULT" />
-                  <category android:name="android.intent.category.BROWSABLE" />
-
-                  <data
-                      android:scheme="app"
-                      android:host="accesos.app.adi">
-
-                  </data>
-              </intent-filter>
-
-              <!-- App Links -->
-              <intent-filter android:autoVerify="true">
-                  <action android:name="android.intent.action.VIEW" />
-
-                  <category android:name="android.intent.category.DEFAULT" />
-                  <category android:name="android.intent.category.BROWSABLE" />
-
-                  <data
-                      android:scheme="unilinks"
-                      android:host="accesos.app.adi">
-
-                  </data>
-              </intent-filter>
-          </activity>
-    </application>
-</manifest>
+ ```dart
+ Future<http.Response> metodoGet(url, parametrosConsulta) async {
+    var uri = Uri.parse(url);
+    uri = uri.replace(queryParameters: parametrosConsulta);
+    http.Response respuesta = await http.get(uri);
+    return respuesta;
+  }
 ```
 
 
@@ -98,6 +98,7 @@ Para utilizar la librería fue necesario configurar los permisos de los links en
 
 ### Guardar información en la aplicación
 [Shared Preferences 1](https://pub.dartlang.org/packages/shared_preferences)
+
 [Shared Preferences 2](https://medium.com/@carlosAmillan/shared-preferences-c%C3%B3mo-guardar-la-configuraci%C3%B3n-de-la-aplicaci%C3%B3n-flutter-y-las-preferencias-del-8bbd30cd7dbc).
 
 Para almacenar datos __sin cifrar__ en la aplicación se utiliza Shared Preferences.
@@ -136,22 +137,98 @@ Para borrar los datos se utiliza
 prefs.remove("activo");
 ```
 
-## Estructura aplicación
 
-### Clases con build (pantallas)
-* ListadoAccesos
-* PaginaEspera
-* PaginaInicioSesion
-* PaginaPrincipal
-
-### Clases con factory
-* Acceso
-* InformacionToken
-* PostInicioSesion
-* Usuario
+## Hecho nativo
+### Splash screen
+[splash screen 1](https://flutter.io/docs/development/ui/assets-and-images)
+#### Android:
+Para añadir imagenes agregarlas en las carpetas mipmap ubicadas en
+Hades\android\app\src\main\res
 
 
-## Utilidades
+Para agregar el color de fondo agregar el archivo colors.xml en la carpeta values, ubicada en
+Hades\android\app\src\main\res
+con el siguiente contenido
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nombreColor">#colorEnHexadecimal</color>
+</resources>
+```
+
+Finalmente para configurar la splash screen ir a
+Hades\android\app\src\main\res\drawable\launch_background.xml
+y agregar
+```xml
+<?xml version="1.0" encoding="utf-8"?><!-- Modify this file to customize your launch splash screen -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- indicar color -->
+    <item android:drawable="@color/nombreColor" />
+
+    <!-- insertar imagen -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/nombreImagen" />
+    </item>
+</layer-list>
+
+```
+
+#### iOS:
+
+### Redirigir a la aplicación luego de que la persona inicie sesión
+[uni_links 1](https://pub.dartlang.org/packages/uni_links)
+
+
+Se utilizó la función getLinksStream de la librería uni_links  para
+tener un listener que vea el cambio en la url.
+
+
+Para utilizar la librería fue necesario configurar los permisos de los links en las
+ carpetas de ios y android.
+
+#### Android:
+ Para agregar los links ir a Hades\android\app\src\main\AndroidManifest.xml
+```xml
+<manifest ...>
+    <application ...>
+          <activity ...>
+              <!-- Deep Links -->
+              <intent-filter>
+                  <action android:name="android.intent.action.VIEW" />
+
+                  <category android:name="android.intent.category.DEFAULT" />
+                  <category android:name="android.intent.category.BROWSABLE" />
+
+                  <data
+                      android:scheme="app"
+                      android:host="accesos.app.adi">
+
+                  </data>
+              </intent-filter>
+
+              <!-- App Links -->
+              <intent-filter android:autoVerify="true">
+                  <action android:name="android.intent.action.VIEW" />
+
+                  <category android:name="android.intent.category.DEFAULT" />
+                  <category android:name="android.intent.category.BROWSABLE" />
+
+                  <data
+                      android:scheme="unilinks"
+                      android:host="accesos.app.adi">
+
+                  </data>
+              </intent-filter>
+          </activity>
+    </application>
+</manifest>
+```
+
+#### iOS:
+
+
 
 
 
