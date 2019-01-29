@@ -200,7 +200,7 @@ con el siguiente contenido
 ```
 
 Finalmente para configurar la splash screen ir a
-Hades\android\app\src\main\res\drawable\launch_background.xml
+[Hades\android\app\src\main\res\drawable\launch_background.xml](../master/android/app/src/main/res/drawable/launch_background.xml)
 y agregar
 ```xml
 <?xml version="1.0" encoding="utf-8"?><!-- Modify this file to customize your launch splash screen -->
