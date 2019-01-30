@@ -38,6 +38,7 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
       }
     }
   }
+
   /// Obtener el token, refresh_token, fecha de expiración del token y nombre de usuario
   /// desde Aqueronte para luego guardar estos datos en SharedPreferences.
   Future<bool> _conseguirTokenConTicket(String ticket, String url) async {
@@ -109,9 +110,6 @@ class _PaginaInicioSesionState extends State<PaginaInicioSesion> {
                       Navigator.of(context).pushNamed('/paginaEspera');
                       await lanzarURL(urlUri);
                       _conseguirTicket();
-                    })
-            )
-        )
-    );
+                    }))));
   }
 }

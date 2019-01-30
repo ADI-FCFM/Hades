@@ -5,11 +5,20 @@ import 'package:hades/variables.dart';
 class PaginaEspera extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.red),
-        home: Builder(
-            builder: (context) => Scaffold(
-                appBar: AppBar(title: Text(tituloAplicacion)),
-                body: Center(child: CircularProgressIndicator()))));
+    return new WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(tituloAplicacion),
+              automaticallyImplyLeading: false,
+              actions: <Widget>[
+                new IconButton(
+                    icon: new Icon(Icons.close),
+                    onPressed: () =>
+                        Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/', (_) => false)),
+              ],
+            ),
+            body: Center(child: CircularProgressIndicator())));
   }
 }

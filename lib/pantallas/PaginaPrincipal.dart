@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hades/Acceso.dart';
-import 'package:hades/utilidades/usuario.dart';
+import 'package:hades/pantallas/ListadoAccesos.dart';
 import 'package:hades/utilidades/accesos.dart';
+import 'package:hades/utilidades/usuario.dart';
 import 'package:hades/utilidades/utilidadesGenerales.dart';
 import 'package:hades/variables.dart';
-import 'package:hades/pantallas/ListadoAccesos.dart';
 
 class PaginaInicial extends StatelessWidget {
   @override
@@ -26,8 +26,7 @@ class PaginaInicial extends StatelessWidget {
                   return Text(respuesta.data);
                 }
                 return Text(tituloAplicacion);
-              })
-      ),
+              })),
       body: FutureBuilder<List<Acceso>>(
         future: conseguirAccesos(context),
         builder: (context, respuesta) {
