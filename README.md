@@ -184,12 +184,13 @@ prefs.remove("activo");
 ### Splash screen
 [splash screen 1](https://flutter.io/docs/development/ui/assets-and-images)
 #### Android:
-Para añadir imagenes agregarlas en las carpetas mipmap ubicadas en
-Hades\android\app\src\main\res
+Para añadir imagenes agregarlas en las carpetas __mipmap__ ubicadas en
+[Hades\android\app\src\main\res](../master/android/app/src/main/res)
 
 
-Para agregar el color de fondo agregar el archivo [colors.xml](../master/android/app/src/main/res/values/colors.xml) en la carpeta values, ubicada en
-Hades\android\app\src\main\res
+
+Para agregar el color de fondo agregar el archivo [colors.xml](../master/android/app/src/main/res/values/colors.xml) en la carpeta __values__, ubicada en
+[Hades\android\app\src\main\res](../master/android/app/src/main/res)
 con el siguiente contenido
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -199,7 +200,7 @@ con el siguiente contenido
 ```
 
 Finalmente para configurar la splash screen ir a
-Hades\android\app\src\main\res\drawable\launch_background.xml
+[Hades\android\app\src\main\res\drawable\launch_background.xml](../master/android/app/src/main/res/drawable/launch_background.xml)
 y agregar
 ```xml
 <?xml version="1.0" encoding="utf-8"?><!-- Modify this file to customize your launch splash screen -->
@@ -231,7 +232,7 @@ Para utilizar la librería fue necesario configurar los permisos de los links en
  carpetas de ios y android.
 
 #### Android:
- Para agregar los links ir a Hades\android\app\src\main\AndroidManifest.xml
+ Para agregar los links ir a [Hades\android\app\src\main\AndroidManifest.xml](../master/android/app/src/main/AndroidManifest.xml)
 ```xml
 <manifest ...>
     <application ...>
